@@ -20,7 +20,16 @@ class Matrix:
         for i in range(self.rows):
             for j in range(self.columns):
                 elements.append(self.matrix[i][j] + matrix.matrix[i][j])
-        return MatrixFromAddition(n, m, *elements)
+        return CreatedMatrix(n, m, *elements)
+
+    def multiplication_by_number(self, number):
+        n = self.rows
+        m = self.columns
+        elements = []
+        for i in range(self.rows):
+            for j in range(self.columns):
+                elements.append(self.matrix[i][j] * number)
+        return CreatedMatrix(n, m, *elements)
 
     def show_matrix(self):
         for row in range(self.rows):
@@ -29,7 +38,7 @@ class Matrix:
             print("\n")
 
 
-class MatrixFromAddition(Matrix):
+class CreatedMatrix(Matrix):
     def __init__(self, n, m, *elements):
         self.rows = int(n)
         self.columns = int(m)
@@ -47,12 +56,6 @@ class MatrixFromAddition(Matrix):
 
 n1, m1 = input().split(" ")
 matrix1 = Matrix(n1, m1)
-
-n2, m2 = input().split(" ")
-matrix2 = Matrix(n2, m2)
-
-if n1 == n2 and m1 == m2:
-    addition_matrix = matrix1.add_matrices(matrix2)
-    addition_matrix.show_matrix()
-else:
-    print("ERROR")
+c = int(input())
+new_matrix = matrix1.multiplication_by_number(c)
+new_matrix.show_matrix()
