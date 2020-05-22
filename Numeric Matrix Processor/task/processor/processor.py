@@ -109,6 +109,58 @@ class Matrix:
 
         return CreatedMatrix(n, m, *elements)
 
+    def determinant_of_matrix(self):
+        n = self.rows
+        mat = self.matrix
+        temp = [0] * n  # temporary array for storing row
+        total = 1
+        det = 1  # initialize result
+
+        # loop for traversing the diagonal elements
+        for i in range(0, n):
+            index = i  # initialize the index
+
+            # finding the index which has non zero value
+            while mat[index][i] == 0 and index < n:
+                index += 1
+
+            if index == n:  # if there is non zero element
+                # the determinat of matrix as zero
+                continue
+
+            if index != i:
+                # loop for swaping the diagonal element row and index row
+                for j in range(0, n):
+                    mat[index][j], mat[i][j] = mat[i][j], mat[index][j]
+
+                    # determinant sign changes when we shift rows
+                # go through determinant properties
+                det = det * int(pow(-1, index - i))
+
+                # storing the values of diagonal row elements
+            for j in range(0, n):
+                temp[j] = mat[i][j]
+
+                # traversing every row below the diagonal element
+            for j in range(i + 1, n):
+                num1 = temp[i]  # value of diagonal element
+                num2 = mat[j][i]  # value of next row element
+
+                # traversing every column of row
+                # and multiplying to every row
+                for k in range(0, n):
+                    # multiplying to make the diagonal
+                    # element and next row element equal
+
+                    mat[j][k] = (num1 * mat[j][k]) - (num2 * temp[k])
+
+                total = total * num1  # Det(kA)=kDet(A);
+
+        # mulitplying the diagonal elements to get determinant
+        for i in range(0, n):
+            det = det * mat[i][i]
+        return float(det / total)  # Det(kA)/k=Det(A);
+
     def show_matrix(self):
         for row in range(self.rows):
             for column in range(self.columns):
@@ -138,6 +190,7 @@ while True:
 2. Multiply matrix by a constant
 3. Multiply matrices
 4. Transpose matrix
+5. Calculate a determinant
 0. Exit""")
     choice = int(input("Your choice: "))
     if choice == 0:
@@ -181,10 +234,19 @@ while True:
 1. Main diagonal
 2. Side diagonal
 3. Vertical line
-4. Horizontal line""")
+4. Horizontal line
+""")
         choice2 = int(input("Your choice:"))
         n1, m1 = input("Enter matrix size: ").split(" ")
         print("Enter matrix: ")
         matrix1 = Matrix(n1, m1)
         result = matrix1.transpose_matrix(int(choice2))
         result.show_matrix()
+    elif choice == 5:
+        n1, m1 = input("Enter size of matrix: ").split(" ")
+        print("Enter matrix: ")
+        matrix1 = Matrix(n1, m1)
+        if n1 == m1:
+            print("The result is: ")
+            determ = matrix1.determinant_of_matrix()
+            print(determ)
